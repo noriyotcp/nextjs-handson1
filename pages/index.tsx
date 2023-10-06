@@ -28,6 +28,12 @@ export const getStaticProps: GetStaticProps<{}> = async () => {
 
   console.dir(database, { depth: null });
 
+  const blocks = await notion.blocks.children.list({
+    block_id: database.results[0]?.id,
+  });
+
+  console.dir(blocks, { depth: null });
+
   return {
     props: {},
   };
