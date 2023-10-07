@@ -38,7 +38,7 @@ type StaticProps = {
   posts: Post[];
 };
 
-async function getPostContents(post: Post): Promise<Content[]> {
+export async function getPostContents(post: Post): Promise<Content[]> {
   const blockResponse = await notion.blocks.children.list({
     block_id: post.id,
   });
