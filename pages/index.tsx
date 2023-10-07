@@ -38,7 +38,7 @@ type StaticProps = {
   posts: Post[];
 };
 
-export async function getPostContents(post: Post): Promise<Content[]> {
+export const getPostContents = async (post: Post): Promise<Content[]> => {
   const blockResponse = await notion.blocks.children.list({
     block_id: post.id,
   });
@@ -83,7 +83,7 @@ export async function getPostContents(post: Post): Promise<Content[]> {
   });
 
   return contents;
-}
+};
 
 export async function getPosts(slug?: string): Promise<Post[]> {
   let database: QueryDatabaseResponse | undefined = undefined;
@@ -163,10 +163,20 @@ export async function getPosts(slug?: string): Promise<Post[]> {
   return posts;
 }
 
-export const getStaticProps = async (): Promise<{
+export const getStaticProps: GetStaticProps<StaticProps> = async (): Promise<{
   props: { posts: Post[] };
 }> => {
   const posts = await getPosts();
+  const contentsList = await Promise.all(
+    posts.map(async (post) => {
+      return getPostContents(post);
+    })
+  );
+
+  posts.forEach((post, index) => {
+    post.contents = contentsList[index];
+  });
+
   return {
     props: { posts },
   };
