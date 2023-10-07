@@ -31,7 +31,7 @@ export type Post = {
   slug: string | null;
   createdTs: string | null;
   lastEditedTs: string | null;
-  content: Content[];
+  contents: Content[];
 };
 
 type StaticProps = {
@@ -147,7 +147,7 @@ export async function getPosts(slug?: string): Promise<Post[]> {
         slug,
         createdTs: (page as PageObjectResponse).created_time,
         lastEditedTs: (page as PageObjectResponse).last_edited_time,
-        content: [],
+        contents: [],
       });
       posts.push({
         id: page.id,
@@ -155,7 +155,7 @@ export async function getPosts(slug?: string): Promise<Post[]> {
         slug,
         createdTs: (page as PageObjectResponse).created_time,
         lastEditedTs: (page as PageObjectResponse).last_edited_time,
-        content: contents,
+        contents,
       });
     })
   );
@@ -194,7 +194,7 @@ const Home: NextPage<StaticProps> = ({ posts }) => {
             </div>
           </div>
           <div>
-            {post.content.map((content, index) => {
+            {post.contents.map((content, index) => {
               switch (content.type) {
                 case "heading_2":
                   return (
