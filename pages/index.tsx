@@ -161,6 +161,49 @@ const Home: NextPage<StaticProps> = ({ post }) => {
             </div>
           </div>
         </div>
+        <div>
+          {post.content.map((content, index) => {
+            switch (content.type) {
+              case "heading_2":
+                return (
+                  <h2 className={styles.heading2} key={index}>
+                    {content.text}
+                  </h2>
+                );
+              case "heading_3":
+                return (
+                  <h3 className={styles.heading3} key={index}>
+                    {content.text}
+                  </h3>
+                );
+              case "paragraph":
+                return (
+                  <p className={styles.paragraph} key={index}>
+                    {content.text}
+                  </p>
+                );
+              case "code":
+                return (
+                  <pre className={styles.code} key={index}>
+                    <code
+                      className={`
+                      ${styles.code}
+                      lang-${content.language}
+                    `}
+                    >
+                      {content.text}
+                    </code>
+                  </pre>
+                );
+              case "quote":
+                return (
+                  <blockquote className={styles.quote} key={index}>
+                    {content.text}
+                  </blockquote>
+                );
+            }
+          })}
+        </div>
       </div>
     </div>
   );
