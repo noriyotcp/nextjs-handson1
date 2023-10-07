@@ -6,6 +6,8 @@ import {
 import { GetStaticProps, NextPage } from "next";
 import styles from "../styles/Home.module.css";
 import dayjs from "dayjs";
+import prism from "prismjs";
+import { useEffect } from "react";
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -146,6 +148,10 @@ export const getStaticProps: GetStaticProps<StaticProps> = async () => {
 };
 
 const Home: NextPage<StaticProps> = ({ post }) => {
+  useEffect(() => {
+    prism.highlightAll();
+  }, []);
+
   if (!post) return null;
   return (
     <div className={styles.wrapper}>
