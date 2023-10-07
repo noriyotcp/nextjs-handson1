@@ -144,25 +144,13 @@ export const getStaticProps: GetStaticProps<StaticProps> = async () => {
 };
 
 const Home: NextPage<StaticProps> = ({ post }) => {
-  console.log(post);
+  if (!post) return null;
   return (
-    post && (
+    <div>
       <div>
         <h1>{post.title}</h1>
-        {post.content.map((content, index) => {
-          switch (content.type) {
-            case "paragraph":
-              return <p key={index}>{content.text}</p>;
-            case "heading_2":
-              return <h2 key={index}>{content.text}</h2>;
-            case "heading_3":
-              return <h3 key={index}>{content.text}</h3>;
-            case "quote":
-              return <blockquote key={index}>{content.text}</blockquote>;
-          }
-        })}
       </div>
-    )
+    </div>
   );
 };
 
