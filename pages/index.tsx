@@ -1,6 +1,7 @@
 import { Client } from "@notionhq/client";
 import {
   PageObjectResponse,
+  QueryDatabaseResponse,
   RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { GetStaticProps, NextPage } from "next";
@@ -37,26 +38,43 @@ type StaticProps = {
   posts: Post[];
 };
 
-async function getPosts(): Promise<Post[]> {
-  const database = await notion.databases.query({
-    database_id: process.env.NOTION_DATABASE_ID || "",
-    filter: {
-      and: [
-        {
-          property: "Published",
-          checkbox: {
-            equals: true,
+export async function getPosts(slug?: string): Promise<Post[]> {
+  let database: QueryDatabaseResponse | undefined = undefined;
+  if (slug) {
+    database = await notion.databases.query({
+      database_id: process.env.NOTION_DATABASE_ID || "",
+      filter: {
+        and: [
+          {
+            property: "Slug",
+            rich_text: {
+              equals: slug,
+            },
           },
+        ],
+      },
+    });
+  } else {
+    database = await notion.databases.query({
+      database_id: process.env.NOTION_DATABASE_ID || "",
+      filter: {
+        and: [
+          {
+            property: "Published",
+            checkbox: {
+              equals: true,
+            },
+          },
+        ],
+      },
+      sorts: [
+        {
+          timestamp: "created_time",
+          direction: "descending",
         },
       ],
-    },
-    sorts: [
-      {
-        timestamp: "created_time",
-        direction: "descending",
-      },
-    ],
-  });
+    });
+  }
 
   const posts: Post[] = [];
   const blockResponses = await Promise.all(
