@@ -3,7 +3,7 @@ import {
   PageObjectResponse,
   RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
-import { GetStaticProps } from "next";
+import { GetStaticProps, NextPage } from "next";
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -143,6 +143,27 @@ export const getStaticProps: GetStaticProps<StaticProps> = async () => {
   };
 };
 
-export default function Home() {
-  return <div>hello world</div>;
-}
+const Home: NextPage<StaticProps> = ({ post }) => {
+  console.log(post);
+  return (
+    post && (
+      <div>
+        <h1>{post.title}</h1>
+        {post.content.map((content, index) => {
+          switch (content.type) {
+            case "paragraph":
+              return <p key={index}>{content.text}</p>;
+            case "heading_2":
+              return <h2 key={index}>{content.text}</h2>;
+            case "heading_3":
+              return <h3 key={index}>{content.text}</h3>;
+            case "quote":
+              return <blockquote key={index}>{content.text}</blockquote>;
+          }
+        })}
+      </div>
+    )
+  );
+};
+
+export default Home;
