@@ -10,6 +10,7 @@ import dayjs from "dayjs";
 import prism from "prismjs";
 import { useEffect } from "react";
 import Link from "next/link";
+import { Layout } from "@/lib/component/Layout";
 
 const notion = new Client({
   auth: process.env.NOTION_TOKEN,
@@ -189,7 +190,7 @@ const Home: NextPage<StaticProps> = ({ posts }) => {
   }, []);
 
   return (
-    <div className={styles.wrapper}>
+    <Layout>
       {posts.map((post) => (
         <div className={styles.post} key={post.id}>
           <h1 className={styles.title}>
@@ -253,7 +254,7 @@ const Home: NextPage<StaticProps> = ({ posts }) => {
           </div>
         </div>
       ))}
-    </div>
+    </Layout>
   );
 };
 
