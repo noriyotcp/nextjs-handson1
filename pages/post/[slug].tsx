@@ -1,6 +1,10 @@
 import { GetStaticPaths, GetStaticProps } from "next";
-import { getPosts, getPostContents, Post } from "../index";
 import { NextPage } from "next";
+import { useEffect } from "react";
+import prism from "prismjs";
+import { getPosts, getPostContents, Post } from "../index";
+import { Layout } from "@/lib/component/Layout";
+import { PostComponent } from "@/lib/component/Post";
 
 type StaticPathsParams = {
   slug: string;
@@ -53,36 +57,18 @@ export const getStaticProps: GetStaticProps<
 };
 
 const PostPage: NextPage<StaticProps> = ({ post }) => {
+  useEffect(() => {
+    prism.highlightAll();
+  }, []);
+
   if (!post) {
     return null;
   }
 
   return (
-    <div>
-      <h1>{post.title}</h1>
-      <p>{post.createdTs}</p>
-      <p>{post.lastEditedTs}</p>
-      <ul>
-        {post.contents.map((content, index) => {
-          switch (content.type) {
-            case "paragraph":
-              return <p key={index}>{content.text}</p>;
-            case "heading_2":
-              return <h2 key={index}>{content.text}</h2>;
-            case "heading_3":
-              return <h3 key={index}>{content.text}</h3>;
-            case "quote":
-              return <blockquote key={index}>{content.text}</blockquote>;
-            case "code":
-              return (
-                <pre key={index}>
-                  <code>{content.text}</code>
-                </pre>
-              );
-          }
-        })}
-      </ul>
-    </div>
+    <Layout>
+      <PostComponent post={post} />
+    </Layout>
   );
 };
 
