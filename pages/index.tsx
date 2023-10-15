@@ -5,11 +5,8 @@ import {
   RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { GetStaticProps, NextPage } from "next";
-import styles from "../styles/Home.module.css";
-import dayjs from "dayjs";
 import prism from "prismjs";
 import { useEffect } from "react";
-import Link from "next/link";
 import { Layout } from "@/lib/component/Layout";
 import { PostComponent } from "@/lib/component/Post";
 

@@ -3,8 +3,8 @@ import { NextPage } from "next";
 import { useEffect } from "react";
 import prism from "prismjs";
 import { getPosts, getPostContents, Post } from "../index";
-import { Layout } from "@/lib/component/Layout";
-import { PostComponent } from "@/lib/component/Post";
+import { Layout } from "../../lib/component/Layout";
+import { PostComponent } from "../../lib/component/Post";
 
 type StaticPathsParams = {
   slug: string;
@@ -35,7 +35,6 @@ export const getStaticProps: GetStaticProps<
   StaticPathsParams
 > = async ({
   params,
-  preview,
 }): Promise<
   | {
       props: { post?: Post };
@@ -54,7 +53,7 @@ export const getStaticProps: GetStaticProps<
   }
 
   const { slug } = params;
-  const posts = await getPosts(params.slug);
+  const posts = await getPosts(slug);
   const post = posts.shift();
   if (!post) {
     return notFoundProps;
