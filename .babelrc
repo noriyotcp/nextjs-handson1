@@ -20,6 +20,7 @@
           "sql",
           "typescript",
           "yaml",
+          "ruby",
           "rust",
           "java"
         ],

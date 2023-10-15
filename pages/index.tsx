@@ -5,8 +5,6 @@ import {
   RichTextItemResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 import { GetStaticProps, NextPage } from "next";
-import prism from "prismjs";
-import { useEffect } from "react";
 import { Layout } from "@/lib/component/Layout";
 import { PostComponent } from "@/lib/component/Post";
 
@@ -185,10 +183,6 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (): Promise<{
 };
 
 const Home: NextPage<StaticProps> = ({ posts }) => {
-  useEffect(() => {
-    prism.highlightAll();
-  }, []);
-
   return (
     <Layout>
       {posts.map((post) => (

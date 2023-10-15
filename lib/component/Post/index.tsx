@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FunctionComponent } from "react";
 import { Post } from "../../../pages";
 import styles from "./index.module.css";
+import CodeComponent from "../Code";
 
 export const PostComponent: FunctionComponent<{
   post: Post;
@@ -49,15 +50,11 @@ export const PostComponent: FunctionComponent<{
               );
             case "code":
               return (
-                <pre
-                  className={`
-                    ${styles.code}
-                    lang-${content.language}
-                  `}
+                <CodeComponent
+                  language={content.language}
+                  text={content.text}
                   key={key}
-                >
-                  <code>{content.text}</code>
-                </pre>
+                />
               );
             case "quote":
               return (
