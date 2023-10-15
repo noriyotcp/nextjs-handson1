@@ -168,6 +168,7 @@ export async function getPosts(slug?: string): Promise<Post[]> {
 
 export const getStaticProps: GetStaticProps<StaticProps> = async (): Promise<{
   props: { posts: Post[] };
+  revalidate: number;
 }> => {
   const posts = await getPosts();
   const contentsList = await Promise.all(
@@ -182,6 +183,7 @@ export const getStaticProps: GetStaticProps<StaticProps> = async (): Promise<{
 
   return {
     props: { posts },
+    revalidate: 60,
   };
 };
 

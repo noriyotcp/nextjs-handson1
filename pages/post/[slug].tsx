@@ -33,7 +33,16 @@ export const getStaticPaths: GetStaticPaths<StaticPathsParams> = async () => {
 export const getStaticProps: GetStaticProps<
   StaticProps,
   StaticPathsParams
-> = async ({ params, preview }) => {
+> = async ({
+  params,
+  preview,
+}): Promise<
+  | {
+      props: { post?: Post };
+      revalidate: number;
+    }
+  | typeof notFoundProps
+> => {
   const notFoundProps = {
     props: {},
     redirect: {
@@ -53,7 +62,7 @@ export const getStaticProps: GetStaticProps<
 
   const contents = await getPostContents(post);
   post.contents = contents;
-  return { props: { post } };
+  return { props: { post }, revalidate: 60 };
 };
 
 const PostPage: NextPage<StaticProps> = ({ post }) => {
